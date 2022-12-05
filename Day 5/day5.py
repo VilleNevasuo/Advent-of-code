@@ -1,5 +1,5 @@
 
-def arrange(biglist, raw_data, arrange=0):
+def arrange(biglist, raw_data, reverse=0):
 
     copy_list = biglist[:]
     for el in raw_data[10:]:
@@ -7,7 +7,7 @@ def arrange(biglist, raw_data, arrange=0):
         amount, beg, fin = int(el[1]), int(el[3]), int(el[5])
 
         to_move = copy_list[beg-1][0:amount]
-        if arrange:
+        if reverse:
             to_move.reverse()
 
         del copy_list[beg-1][0:amount]
@@ -35,5 +35,5 @@ with open("data.txt", "r") as file:
                 l.append(el[i])
         biglist.append(l)
 
-    print(arrange(biglist, raw_data, arrange=1))
-    print(arrange(biglist, raw_data))
+    print("part 1:", arrange(biglist, raw_data, reverse=1))
+    print("part 2:", arrange(biglist, raw_data))
