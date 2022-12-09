@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def compare_trees(strip, current_tree, i, direction):
+def compare_trees(strip, current_tree, i, direction, scorecheck=0):
 
     score = 0
     if direction == "west":
@@ -9,12 +9,22 @@ def compare_trees(strip, current_tree, i, direction):
         strip = strip[::-1]
         for tree in strip:
             if tree >= current_tree:
+                if scorecheck == 1:
+                    return score+1
                 return False
+            score += 1
+        if scorecheck == 1:
+            return score
         return True
     else:
         for tree in strip[i+1:]:
             if tree >= current_tree:
+                if scorecheck == 1:
+                    return score+1
                 return False
+            score += 1
+        if scorecheck == 1:
+            return score
         return True
 
 
@@ -22,10 +32,10 @@ visible = 0
 grid = []
 npgrid = []
 gridt = []
-scenic_score = 0
+scenic_score = []
 
 
-with open("test.txt", "r") as file:
+with open("data.txt", "r") as file:
     for line in file:
         grid.append(line.strip())
 
@@ -79,5 +89,16 @@ for strip in range(len(grid)):
                 print("east transpose visible")
                 visible += 1
 
+        score1 = compare_trees(
+            strip_norm, current_tree_norm, tree_norm, "west", 1)
+        score2 = compare_trees(
+            strip_norm, current_tree_norm, tree_norm, "east", 1)
+        score3 = compare_trees(
+            strip_tran, current_tree_tran, tree_tran, "west", 1)
+        score4 = compare_trees(
+            strip_tran, current_tree_tran, tree_tran, "east", 1)
+
+        scenic_score.append(score1*score2*score3*score4)
 
 print("overall visible", visible)
+print("max scenic score", max(scenic_score))
