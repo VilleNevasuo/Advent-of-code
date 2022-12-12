@@ -1,4 +1,5 @@
 import copy
+import time
 
 
 def take_step(step):
@@ -37,7 +38,8 @@ for i in range(len(maze)):
             startlocs.append((i, a))
             maze[i][a] = ord("a") - 96
         elif maze[i][a] == "a":
-            startlocs.append((i, a))
+            if a < 3:
+                startlocs.append((i, a))
             maze[i][a] = ord("a") - 96
         elif maze[i][a] == "E":
             end = i, a
@@ -48,14 +50,17 @@ for i in range(len(maze)):
     maze_comp.append(l)
 
 maze_comp_og = copy.deepcopy(maze_comp)
-
+print(startlocs)
 for starts in startlocs:
     k = 0
     maze_comp[starts[0]][starts[1]] = 1
     while maze_comp[end[0]][end[1]] == 0:
         k += 1
         take_step(k)
+        if k > 5000:
+            break
     distances.append(maze_comp[end[0]][end[1]])
     maze_comp = copy.deepcopy(maze_comp_og)
+    print(distances)
 
-print(min(distances)-1)
+print(min(i for i in distances if i != 0)-1)
