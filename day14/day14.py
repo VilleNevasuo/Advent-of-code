@@ -25,11 +25,12 @@ def drop_sand():
             sand_curr[0] += 1
 
         max_y = y
+
         for l in rock_coordinates:
             for coord in l:
                 if coord[1] > max_y:
                     max_y = coord[1]
-
+        # exit if in abyss, i.e. sand falls forever with no rocks to stop it
         if max_y < sand_curr[0]:
             return resting_sand
 
