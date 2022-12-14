@@ -7,7 +7,6 @@ def drop_sand():
 
     while True:
         if cave[sand_curr[0]+1][sand_curr[1]] == "#":
-            print("hey", sand_curr[0])
             if cave[sand_curr[0]+1][sand_curr[1]-1] == ".":
                 sand_curr[0] += 1
                 sand_curr[1] -= 1
@@ -16,12 +15,10 @@ def drop_sand():
                 sand_curr[0] += 1
                 sand_curr[1] += 1
             else:
-                print("getting here")
                 cave[sand_curr[0]][sand_curr[1]] = "#"
                 resting_sand += 1
                 sand_curr[0] = 0
                 sand_curr[1] = 500
-
         else:
             sand_curr[0] += 1
 
@@ -68,8 +65,6 @@ for i in range(len(rock_coordinates)):
                 x = fill
                 y = rock_coordinates[i][a][1]
                 cave[y][x] = "#"
-
-print(rock_coordinates)
 
 
 resting_sand = 0
