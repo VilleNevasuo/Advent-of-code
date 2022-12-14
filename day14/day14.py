@@ -3,7 +3,7 @@
 def drop_sand():
 
     resting_sand = 0
-    sand_curr = [0, 10]
+    sand_curr = [0, 500]
 
     while True:
         if cave[sand_curr[0]+1][sand_curr[1]] == "#":
@@ -16,10 +16,11 @@ def drop_sand():
                 sand_curr[0] += 1
                 sand_curr[1] += 1
             else:
+                print("getting here")
                 cave[sand_curr[0]][sand_curr[1]] = "#"
                 resting_sand += 1
                 sand_curr[0] = 0
-                sand_curr[1] = 10
+                sand_curr[1] = 500
 
         else:
             sand_curr[0] += 1
@@ -36,13 +37,13 @@ def drop_sand():
 
 cave = []
 rock_coordinates = []
-with open("test.txt", "r") as file:
+with open("data.txt", "r") as file:
     for line in file:
         l = []
         line = line.strip().split(" -> ")
         for coord in line:
             coord = coord.split(",")
-            l.append((int(coord[0])-490, int(coord[1])))
+            l.append((int(coord[0]), int(coord[1])))
         rock_coordinates.append(l)
 
 for i in range(1000):
@@ -50,8 +51,6 @@ for i in range(1000):
     for a in range(1000):
         row.append(".")
     cave.append(row)
-
-count = 0
 
 for i in range(len(rock_coordinates)):
     for a in range(1, len(rock_coordinates[i])):
@@ -70,12 +69,10 @@ for i in range(len(rock_coordinates)):
                 y = rock_coordinates[i][a][1]
                 cave[y][x] = "#"
 
-count = 0
+print(rock_coordinates)
+
+
 resting_sand = 0
-for el in cave[0:10]:
-    print(el[4:15])
+
 resting_sand = drop_sand()
 print(resting_sand)
-
-for el in cave[0:10]:
-    print(el[4:15])
