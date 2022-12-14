@@ -43,9 +43,9 @@ with open("data.txt", "r") as file:
             l.append((int(coord[0]), int(coord[1])))
         rock_coordinates.append(l)
 
-for i in range(1000):
+for i in range(1100):
     row = []
-    for a in range(1000):
+    for a in range(1100):
         row.append(".")
     cave.append(row)
 
