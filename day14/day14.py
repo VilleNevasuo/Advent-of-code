@@ -1,4 +1,6 @@
 
+# populate cave with sand
+
 
 def drop_sand():
 
@@ -43,12 +45,14 @@ with open("data.txt", "r") as file:
             l.append((int(coord[0]), int(coord[1])))
         rock_coordinates.append(l)
 
+# initialize cave matrix
 for i in range(1100):
     row = []
     for a in range(1100):
         row.append(".")
     cave.append(row)
 
+# map rocks to the cave matrix
 for i in range(len(rock_coordinates)):
     for a in range(1, len(rock_coordinates[i])):
         if rock_coordinates[i][a][0] == rock_coordinates[i][a-1][0]:
