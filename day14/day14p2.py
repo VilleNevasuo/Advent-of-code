@@ -11,8 +11,6 @@ def drop_sand():
         if cave[sand_curr[0]][sand_curr[1]] == "#" or cave[sand_curr[0]][sand_curr[1]] == "o":
             if sand_curr[0] == 0 and sand_curr[1] == 500:
                 print("not moving anymore", resting_sand)
-                for row in cave[0:20]:
-                    print(row[490:510])
                 return resting_sand
         if cave[sand_curr[0]+1][sand_curr[1]] == "#" or cave[sand_curr[0]+1][sand_curr[1]] == "o":
             if cave[sand_curr[0]+1][sand_curr[1]-1] == ".":
