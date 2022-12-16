@@ -12,6 +12,6 @@ with open("test.txt", "r") as file:
                 total += 1
             packets = []
             
-
+print("asd")
 print(packets)
             
