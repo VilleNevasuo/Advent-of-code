@@ -1,81 +1,47 @@
 
 
-def move_vertically(matrix, line, head_pos, tail_pos):
+def move_head(head, direction):
 
-    to_move = int(line[1])
-    for i in range(to_move):
-        if line[0] == "U":
-            head_pos[0] -= 1
-            if tail_pos[0] - head_pos[0] > 1:
-                if head_pos[1] != tail_pos[1]:
-                    tail_pos[1] = head_pos[1]
-                tail_pos[0] -= 1
-                matrix[tail_pos[0]][tail_pos[1]] = "#"
-        else:
-            head_pos[0] += 1
-            if head_pos[0] - tail_pos[0] > 1:
-                if head_pos[1] != tail_pos[1]:
-                    tail_pos[1] = head_pos[1]
-                tail_pos[0] += 1
-                matrix[tail_pos[0]][tail_pos[1]] = "#"
-
-    return head_pos, tail_pos, matrix
+    if direction == "U":
+        head[1] += 1
+    elif direction == "D":
+        head[1] -= 1
+    elif direction == "L":
+        head[0] -= 1
+    else:
+        head[0] += 1
 
 
-def move_horizontally(matrix, line, head_pos, tail_pos):
-
-    to_move = int(line[1])
-    for i in range(to_move):
-        if line[0] == "R":
-            head_pos[1] += 1
-            if head_pos[1] - tail_pos[1] > 1:
-                if head_pos[0] != tail_pos[0]:
-                    tail_pos[0] = head_pos[0]
-                tail_pos[1] += 1
-                matrix[tail_pos[0]][tail_pos[1]] = "#"
-        else:
-            head_pos[1] -= 1
-            if tail_pos[1] - head_pos[1] > 1:
-                if head_pos[0] != tail_pos[0]:
-                    tail_pos[0] = head_pos[0]
-                tail_pos[1] -= 1
-                matrix[tail_pos[0]][tail_pos[1]] = "#"
-
-    return head_pos, tail_pos, matrix
+def is_touching(head, tail):
+    return abs(head[0] - tail[0]) < 2 and abs(head[1] - tail[1]) < 2
 
 
-matrix = [["." for i in range(800)] for j in range(800)]
-count = 0
+def move_tail(tail, head):
+    if head[0] > tail[0]:
+        tail[0] += 1
+    if head[0] < tail[0]:
+        tail[0] -= 1
+    if head[1] > tail[1]:
+        tail[1] += 1
+    if head[1] < tail[1]:
+        tail[1] -= 1
 
-knots = []
-knot = [400, 400]
-for i in range(10):
-    knots.append(knot)
 
-print(knots)
+knots = [[0, 0] for i in range(10)]
 
-matrix[400][400] = "#"
+visited = set()
 
-with open("test.txt", "r") as file:
+
+with open("data.txt", "r") as file:
     for line in file:
         line = line.strip().split(" ")
-        for i in range(len(knots)):
-            if i == 0:
-                continue
-            if line[0] == "U" or line[0] == "D":
-                head_pos, tail_pos, matrix = move_vertically(
-                    matrix, line, knots[i-1], knots[i])
-            else:
-                head_pos, tail_pos, matrix = move_horizontally(
-                    matrix, line, knots[i-1], knots[i])
-            
-            knots[i-1] = head_pos
-            knots[i] = tail_pos
-        print(knots)
+        for i in range(int(line[1])):
 
+            move_head(knots[0], line[0])
+            for i in range(1, len(knots)):
+                if not is_touching(knots[i], knots[i-1]):
+                    move_tail(knots[i], knots[i-1])
 
-for line in matrix:
-    for el in line:
-        if el == "#":
-            count += 1
-print("tiles visited", count)
+            visited.add(tuple(knots[9]))
+
+print(len(visited))
