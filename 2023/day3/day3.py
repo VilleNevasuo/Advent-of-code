@@ -16,8 +16,11 @@ def p1():
 
 def p2():
     
-    return 0
+    l = []
+    for i in range(len(l)):
+        print(i)
+    
 
 
-print(p1())
+#print(p1())
 print(p2())
