@@ -32,31 +32,52 @@ def p1():
 
 def p2():
     
-    total = 0
+    total_scratchcards = []
     scratchcards = []
 
     with open("input.txt") as file:
-        for line in file:
+        for index, line in enumerate(file):
             
-            
-            winnings = []
+
             line = line.strip().split(":")
             line  = line[1].strip().split("|")
-            my_cards = line[1].strip().split(" ")
-            winning_cards = line[0].strip().split(" ")
-            winning_cards = [x for x in winning_cards if len(x) > 0]
-            my_cards = [x for x in my_cards if len(x) > 0]
-            
+            my_numbers = line[1].strip().split(" ")
+            winning_numbers = line[0].strip().split(" ")
+            winning_numbers = [x for x in winning_numbers if len(x) > 0]
+            my_numbers = [x for x in my_numbers if len(x) > 0]
 
+            cards = {"id": index + 1, "winning_numbers": winning_numbers,"my_numbers": my_numbers}
 
-            for el in my_cards:
-                if el in winning_cards:
-                    winnings.append(el)
             
+            scratchcards.append(cards)
+        
+        
+        cards_to_process = list(scratchcards)
+        
+        while cards_to_process:
+            new_scratchcards = []
+
+            for card_dict in cards_to_process:
+                matches = 0
+                for num in card_dict["winning_numbers"]:
+                    if num in card_dict["my_numbers"]:
+                        matches += 1
                 
-            total += sum
+                
+                current_card_id = card_dict["id"]
+                for i in range(1, matches+1):
+                    next_card_id = current_card_id + i
+                    if next_card_id < len(scratchcards):
+                            next_card = scratchcards[next_card_id -1]
+                            new_scratchcards.append(next_card)
             
-    return total
+            
+            total_scratchcards.extend(cards_to_process)
+            cards_to_process = new_scratchcards
+            
+            
+            
+    return len(total_scratchcards)
 
 
 #print(p1())
