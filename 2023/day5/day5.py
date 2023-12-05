@@ -44,6 +44,14 @@ def p1():
 
 
 
+def compute_reverse_mapping(source, map_data):
+    for coords in reversed(map_data):
+        destination, src_start, range_length = coords[0], coords[1], coords[2]
+        if destination <= source < destination + range_length:
+            result = src_start + (source - destination)
+            return result
+    return source
+
 def p2():
     data_dict = {}
     current_map_name = None
@@ -53,7 +61,8 @@ def p2():
             line = line.strip()
             if 'seeds' in line:
                 _, seed_ranges_str = line.split(":")
-                seed_ranges = seed_ranges_str.strip().split()
+                seed_ranges_str = seed_ranges_str.strip().split()
+                seed_ranges = [(int(seed_ranges_str[i]), int(seed_ranges_str[i + 1])) for i in range(0, len(seed_ranges_str), 2)]
             elif 'map' in line:
                 current_map_name = line.split(":")[0].strip()
                 data_dict[current_map_name] = []
@@ -61,22 +70,25 @@ def p2():
                 map_data = list(map(int, line.split()))
                 data_dict[current_map_name].append(map_data)
 
-    locations = []
+    # Assuming the lowest possible location number is known or can be calculated
+    # For simplicity, let's start with 0
+    location = 0
 
-    for i in range(0, len(seed_ranges), 2):
-        start = int(seed_ranges[i])
-        length = int(seed_ranges[i + 1])
-        for seed in range(start, start + length):
-            source = seed
-            for map_name in ['seed-to-soil map', 'soil-to-fertilizer map', 'fertilizer-to-water map',
-                             'water-to-light map', 'light-to-temperature map', 'temperature-to-humidity map',
-                             'humidity-to-location map']:
-                map_data = data_dict.get(map_name, [])
-                source = compute_mapping_for_value(source, map_data)
+    map_order = ['humidity-to-location map', 'temperature-to-humidity map', 'light-to-temperature map',
+                 'water-to-light map', 'fertilizer-to-water map', 'soil-to-fertilizer map', 'seed-to-soil map']
 
-            locations.append(source)
+    while True:
+        source = location
+        for map_name in map_order:
+            map_data = data_dict.get(map_name, [])
+            source = compute_reverse_mapping(source, map_data)
 
-    return min(locations)
+        # Check if the source falls within any seed range
+        for start, length in seed_ranges:
+            if start <= source < start + length:
+                return location
+
+        location += 1
 
 
 
