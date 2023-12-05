@@ -70,8 +70,6 @@ def p2():
                 map_data = list(map(int, line.split()))
                 data_dict[current_map_name].append(map_data)
 
-    # Assuming the lowest possible location number is known or can be calculated
-    # For simplicity, let's start with 0
     location = 0
 
     map_order = ['humidity-to-location map', 'temperature-to-humidity map', 'light-to-temperature map',
@@ -83,7 +81,6 @@ def p2():
             map_data = data_dict.get(map_name, [])
             source = compute_reverse_mapping(source, map_data)
 
-        # Check if the source falls within any seed range
         for start, length in seed_ranges:
             if start <= source < start + length:
                 return location
@@ -95,3 +92,4 @@ def p2():
 
 #print(p1())
 print(p2())
+print("test")
