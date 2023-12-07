@@ -1,5 +1,6 @@
 from collections import Counter
-ranking = "AKQJT98765432"
+
+
 
 
 def is_full_house(s):
@@ -23,17 +24,27 @@ def is_one_pair(s):
     return list(counter.values()).count(2) == 1
 
 
+def replace_jokers(hand):
+
+    card_count = Counter(card for card in hand if card != 'J')
+
+    if card_count:
+        most_common_card = card_count.most_common(1)[0][0]
+
+        hand = hand.replace("J", most_common_card)
+
+    return hand
+
+
 def sort_cards(cards):
-    ranking = "AKQJT98765432"
+    ranking = "AKQT98765432J"
 
     def sort_key(card):
         power = card[-1]
         hand = card[0]
 
-        # Convert hand into a tuple of ranks based on the ranking string
         hand_ranks = tuple(ranking.index(h) for h in hand)
 
-        # Return a tuple of power (in reverse order, so 7 is strongest) and hand ranks
         return (-power, hand_ranks)
 
     return sorted(cards, key=sort_key)
@@ -50,7 +61,9 @@ def calculate_ranks(hands_bids):
         card.append(hand)
         card.append(bid)
 
-        #check if 5 of a kind
+
+        hand = replace_jokers(hand)
+
         if hand == len(hand) * hand[0]:
             card.append(7)
         elif is_four_of_a_kind(hand):
@@ -73,7 +86,7 @@ def calculate_ranks(hands_bids):
     
 
 
-def p1():
+def p2():
 
     total = 0
     hands_bids = []
@@ -85,8 +98,9 @@ def p1():
     
     cards = calculate_ranks(hands_bids)
     
-    print(cards)
+
     cards = sort_cards(cards)
+    print(cards)
     
     for index, card in enumerate(reversed(cards)):
         
@@ -98,10 +112,5 @@ def p1():
 
     return total
 
-def p2():
 
-
-    return 0
-
-print(p1())
-#print(p2())
+print(p2())

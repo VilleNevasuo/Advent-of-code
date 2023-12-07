@@ -1,5 +1,6 @@
 from collections import Counter
-ranking = "AKQJT98765432"
+
+
 
 
 def is_full_house(s):
@@ -23,8 +24,9 @@ def is_one_pair(s):
     return list(counter.values()).count(2) == 1
 
 
+
 def sort_cards(cards):
-    ranking = "AKQJT98765432"
+    ranking = "AKQT98765432J"
 
     def sort_key(card):
         power = card[-1]
@@ -48,7 +50,6 @@ def calculate_ranks(hands_bids):
         card.append(hand)
         card.append(bid)
 
-        #check if 5 of a kind
         if hand == len(hand) * hand[0]:
             card.append(7)
         elif is_four_of_a_kind(hand):
@@ -83,8 +84,9 @@ def p1():
     
     cards = calculate_ranks(hands_bids)
     
-    print(cards)
+
     cards = sort_cards(cards)
+    print(cards)
     
     for index, card in enumerate(reversed(cards)):
         
@@ -96,10 +98,6 @@ def p1():
 
     return total
 
-def p2():
 
+print(p1())
 
-    return 0
-
-#print(p1())
-print(p2())
