@@ -30,8 +30,10 @@ def sort_cards(cards):
         power = card[-1]
         hand = card[0]
 
+        # Convert hand into a tuple of ranks based on the ranking string
         hand_ranks = tuple(ranking.index(h) for h in hand)
 
+        # Return a tuple of power (in reverse order, so 7 is strongest) and hand ranks
         return (-power, hand_ranks)
 
     return sorted(cards, key=sort_key)
@@ -101,5 +103,5 @@ def p2():
 
     return 0
 
-#print(p1())
-print(p2())
+print(p1())
+#print(p2())
