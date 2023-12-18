@@ -104,13 +104,6 @@ def p2():
                                     if symmetric:
                                         rows_to_sum = i + 1    
                         
-                        if rows_to_sum > 0 and og_rows_to_sum != rows_to_sum:
-                            total = total + columns_to_sum + rows_to_sum*100
-                            print("we are breaking", outer, inner)
-                            print(og_rows_to_sum, "ogrowstosum in breaking")
-                            print(rows_to_sum, "rowstosum in breaking")
-                            found_new = True
-                            break
 
                         for i in range(len(columns)):
                             if i+1 < len(columns):
@@ -137,7 +130,13 @@ def p2():
                                         og_columns_to_sum = i + 1
 
                         if columns_to_sum > 0 and og_columns_to_sum != columns_to_sum:
-                            total = total + columns_to_sum
+                            total = total + columns_to_sum + rows_to_sum*100
+                            found_new = True
+                            break
+
+
+                        if rows_to_sum > 0 and og_rows_to_sum != rows_to_sum:
+                            total = total + columns_to_sum + rows_to_sum*100
                             found_new = True
                             break
                 columns = []
