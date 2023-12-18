@@ -21,7 +21,6 @@ def calculate_vertices(instructions):
 
 def shoelace_formula(vertices):
 
-    print("vertices",vertices)
     
     x_sum = 0
     y_sum = 0
@@ -34,7 +33,7 @@ def shoelace_formula(vertices):
 
 def picks_theorem(area,perimeter):
 
-    return area+(1/2)*perimeter-1
+    return area-(1/2)*perimeter+1
 
 
 
@@ -52,11 +51,10 @@ with open("input.txt") as file:
         dir = directions[dir]
         instructions.append((distance,dir))
 
-print(instructions)
+
 vertices, total_perimeter = calculate_vertices(instructions)
-print(total_perimeter)
+
 area = shoelace_formula(vertices)
-print(area+total_perimeter)
+
 finito = picks_theorem(area,total_perimeter)
-print(952408144115-area)
-print("picks",finito)
+print("picks",finito+total_perimeter)
