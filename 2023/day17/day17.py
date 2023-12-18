@@ -9,7 +9,6 @@ def min_heat_loss(grid):
     directions = {'N': (-1, 0), 'E': (0, 1), 'S': (1, 0), 'W': (0, -1)}
     dir_list = list(directions.keys())
 
-    # Create a graph with expanded nodes for each block
     def create_graph():
         graph = {}
         for r in range(rows):
@@ -19,8 +18,6 @@ def min_heat_loss(grid):
                         node = (r, c, dir, steps)
                         graph[node] = []
         return graph
-
-    # Connect the nodes in the graph based on crucible's movement rules
     def connect_graph(graph):
         
         for r in range(rows):
@@ -41,7 +38,6 @@ def min_heat_loss(grid):
                                 next_node = (nr, nc, next_dir, 1)
                                 graph[current_node].append((next_node, int(grid[nr][nc])))
         
-    # Dijkstra's algorithm to find the path with the least heat loss
     def dijkstra(graph, start, end):
         heap = [(0, start)]
         heat_loss_to_node = {node: float('inf') for node in graph}
@@ -60,13 +56,10 @@ def min_heat_loss(grid):
     graph = create_graph()
     connect_graph(graph)
 
-    # Start and end nodes (considering all possible starting directions)
     start_nodes = [(0, 0, dir, 1) for dir in directions]
     end_nodes = [(rows - 1, cols - 1, dir, steps) for dir in directions for steps in range(1, 4)]
-
-    # Find the minimum heat loss across all possible start and end nodes
+    
     return min(dijkstra(graph, start, end) for start in start_nodes for end in end_nodes)
 
-# Calculate the minimum heat loss
 grid = read_grid_from_file()
 print(min_heat_loss(grid))
