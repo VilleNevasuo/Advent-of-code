@@ -1,8 +1,20 @@
 import time
+from collections import defaultdict
 
-def calculate_final_position(grid):
+def calculate_final_position(levels):
     
     changes_made = False
+    
+    for level, bricks in levels.items():
+        
+        for brick in bricks:
+            print(level,brick)
+        
+        
+        
+    time.sleep(3)
+    return 0
+    
     for i, brick in enumerate(grid):
         print("working with brick", i)
         solid_below_x = False
@@ -65,17 +77,19 @@ def calculate_final_position(grid):
 
 def p1():
 
-    x_axis_view = [[0 for _ in range(10)] for _ in range(400)]
-    y_axis_view = [[0 for _ in range(10)] for _ in range(400)]
-
-
+    levels = defaultdict(list)
+    
     with open("input.txt") as file:
         grid = [[int(item) for item in line.replace('~',',').strip().split(',')] for line in file if line.strip()]
 
         sorted_grid = sorted(grid, key=lambda x: x[2])
+
+        for brick in sorted_grid:
+            levels[brick[2]].append(brick)
+            
         
         while True:
-            changes_made = calculate_final_position(sorted_grid)
+            changes_made = calculate_final_position(levels)
             if not changes_made:
                 break
 
